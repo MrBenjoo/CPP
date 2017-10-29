@@ -1,0 +1,16 @@
+Root-finding started...
+x1 = -1
+eval x1 = 0
+ 
+x1 = 1
+x2 = -0.5
+eval x1 = 0
+eval x2 = 0
+ 
+Roots = imaginary
+ 
+x1 = 0.732051
+x2 = -2.73205
+eval x1 = -1.19209e-07
+eval x2 = 4.76837e-07
+ 
