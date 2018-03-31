@@ -1,22 +1,25 @@
 #include "Uppgift1.h"
 #include <iostream>
 
+using std::cout;
+using std::cin;
+using std::endl;
 
 void Uppgift1::runUppgift1()
 {
-	int vectorSize;
-	std::cout << "Hur stor n?" << std::endl;
-	std::cin >> vectorSize;
-	std::cout << "" << std::endl;
-	createVector(vectorSize);
+	int n;
+	cout << "Hur stor n?" << endl;
+	cin >> n;
+	cout << "" << endl;
+	createVector(n);
 	deleteEvenNbrs();
 	deletePrimeMultiples();
 	printPrimeNbrs();
 }
 
-void Uppgift1::createVector(int size)
+void Uppgift1::createVector(int n)
 {
-	for (int i = 2; i < size; i++)  
+	for (int i = 2; i < n; i++)  
 	{
 		ivec.push_back(i);
 	}
@@ -54,7 +57,7 @@ void Uppgift1::printPrimeNbrs()
 {
 	for (int elem : ivec)
 	{
-		std::cout << elem << std::endl;
+		cout << elem << endl;
 	}
 }
 

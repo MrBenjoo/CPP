@@ -10,8 +10,6 @@ class Uppgift3 {
 
 public:
 	void runUppgift3();
-	
-
 };
 
 #endif // !UPPGIFT3_H

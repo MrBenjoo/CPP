@@ -6,6 +6,10 @@ class Person; // forward declaration to make sure person is declared before use 
 
 class PersonReg
 {
+	Person *personer;
+	int maxSize;
+	int index;
+	int pos;
 
 public:
 	PersonReg(int maxSize);
@@ -15,15 +19,7 @@ public:
 	void addPerson(Person*);
 	void deletePerson(Person*);
 	Person *searchPerson(Person*);
-	Person* begin();
-	Person* end();
 	void print();
-	
-private:
-	Person *personer;
-	int maxSize;
-	int index;
-	int pos;
 };
 
 #endif // !PersonReg

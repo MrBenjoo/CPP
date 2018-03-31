@@ -3,12 +3,7 @@
 
 using namespace std;
 
-string nummer;
-
-PersonMedTel::PersonMedTel() 
-{
-
-}
+PersonMedTel::PersonMedTel() { /* empty constructor */ }
 
 PersonMedTel::PersonMedTel(string nummer)
 {

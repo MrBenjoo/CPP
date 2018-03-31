@@ -13,8 +13,8 @@ int main()
 
 
 	/******************** TEST 1 ********************************/
-	/*
-	PersonReg *persongReg = new PersonReg(3);
+	
+	/*PersonReg *persongReg = new PersonReg(4);
 
 	Person person1("benjamin", "Kaptensgränd 94, 310 83  UNNARYD");
 	persongReg->addPerson(&person1);
@@ -26,6 +26,7 @@ int main()
 	persongReg->addPerson(&person3);
 
 	Person person4("Johan", "blabla");
+	persongReg->addPerson(&person4);
 
 	persongReg->print();
 
@@ -38,13 +39,13 @@ int main()
 	persongReg->deletePerson(&person3);
 	persongReg->print();
 
-	delete persongReg;
-	*/
+	delete persongReg;*/
+	
 
 
 	/**************** TEST 2***************************************************/
-	/*
-	PersonReg *persongReg = new PersonReg(6);
+	
+	/*PersonReg *persongReg = new PersonReg(6);
 	persongReg->ReadReg(*persongReg, "../PersonExempel.txt");
 
 	Person* x1 = persongReg->sökFritt("Olle", nullptr); //x1 blir första träffen
@@ -65,17 +66,17 @@ int main()
 	cout << "x3 adress: " + x3->getAdress() + "\n" << endl;
 	}
 
-	delete persongReg;
-	*/
+	delete persongReg;*/
+	
 
 
 	
 	/******************** TEST 3 ********************************/
 	
-	PersonReg *persongReg = new PersonReg(7);
+	PersonReg *persongReg = new PersonReg(7); // static binding
 	persongReg->ReadReg(*persongReg, "../PersonExempel.txt");
 
-	Person *personMedTel = new PersonMedTel("0725294688");
+	Person *personMedTel = new PersonMedTel("0725294688"); // dynamic binding 
 	personMedTel->print();
 
 	persongReg->addPerson(personMedTel);

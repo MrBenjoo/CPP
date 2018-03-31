@@ -5,155 +5,89 @@
 
 using namespace std;
 
-Person *personer;
-int maxSize;
-int index = 0;
-int pos = 0;
-
-
 PersonReg::PersonReg(int maxSize)
 {
 	this->maxSize = maxSize;
-	personer = new Person[maxSize];
+	this->personer = new Person[maxSize];
+	this->index = 0;
+	this->pos = 0;
 	cout << "maxSize: " << maxSize << "\n" << endl;
 }
 
 void PersonReg::addPerson(Person *person)
 {
+	Person *pbeg = personer;
+	Person *pend = personer + maxSize;
 	bool foundEmptySlot = false;
 
-	while ((index < maxSize) && (!foundEmptySlot)) {
-		if (personer[index].getName().empty()) {
+	while (pbeg != pend && !foundEmptySlot)
+	{
+		if (pbeg->getName().empty()) {
+			pbeg->setName(person->getName());
+			pbeg->setAdress(person->getAdress());
+			cout << "Added:" << endl;
+			cout << "     Namn: " + pbeg->getName() << endl;
+			cout << "     Address: " + pbeg->getAdress() << endl;
 			foundEmptySlot = true;
 		}
-		else {
-			++index;
-		}
-	}
-
-	if (foundEmptySlot) {
-		personer[index].setName(person->getName());
-		personer[index].setAdress(person->getAdress());
-		cout << "Added:" << endl;
-		cout << "     Namn: " + personer[index].getName() << endl;
-		cout << "     Address: " + personer[index].getAdress() << endl;
-		if (!person->getNummer().empty()) 
-		{
-		personer[index].setNummer(person->getNummer());
-		cout << "     Nummer: " + personer[index].getNummer() << endl;
-		}
-		cout << "" << endl;
+		else
+			++pbeg;
 	}
 
 }
 
 void PersonReg::deletePerson(Person *person)
 {
-	bool foundName = false;
-
-	cout << "" << endl;
-	cout << "Person to delete:" << endl;
+	cout << "\nPerson to delete:" << endl;
 	cout << "                Namn: " + person->getName() << endl;
 	cout << "                Address: " + person->getAdress() + "\n" << endl;
-
-	if (!person->getName().empty())
-	{
-		int i = 0;
-		string name = person->getName();
-
-		while (i < maxSize && !foundName)
-		{
-			if (name == personer[i].getName()) 
-			{
-				foundName = true;
-			}
-			else 
-			{
-				++i;
-			}
-		}
-
-		if (foundName) 
-		{
-			for (Person* ptr = &personer[i]; ptr != personer + maxSize; ++ptr)
-			{
-				if (ptr == (personer + (maxSize - 1)))
-				{
-					ptr->setName("");
-					ptr->setAdress("");
-				}
-				else
-				{
-					ptr->setName(ptr[1].getName());
-					ptr->setAdress(ptr[1].getAdress());
-				}
-			}
-			cout << name + " was deleted from the register" << endl;
-		}
-
-	}
+	*person = personer[maxSize];
 }
 
 Person* PersonReg::searchPerson(Person *person)
 {
+	Person *pbeg = personer;
+	Person *pend = personer + maxSize;
 	bool foundPerson = false;
-	if (!person->getName().empty())
+
+	while (pbeg != pend && !foundPerson)
 	{
-		string name = person->getName();
-		int i = 0;
-		while (i < maxSize && !foundPerson) 
+		if (person->getName() == pbeg->getName())
 		{
-			if (name == personer[i].getName()) 
-			{
-				foundPerson = true;
-			}
-			else 
-			{
-				++i;
-			}
+			cout << "Found person:" << endl;
+			cout << "            Namn: " + pbeg->getName() << endl;
+			cout << "            Address: " + pbeg->getAdress() << endl;
+			foundPerson = true;
 		}
-		
-		if (foundPerson) 
-		{
-			Person *ptr = &personer[i];
-			cout << ptr->getName() + " was found in the register" << endl;
-			return ptr;
-		}
-		else 
-		{
-			cout << name + " was not found in the register" << endl;
-			return nullptr;
-		}
-		
+		else
+			++pbeg;
 	}
+
+	if (foundPerson)
+		return pbeg;
+	else
+		return nullptr;
+
 }
+
 
 void PersonReg::print()
 {
-	cout << "" << endl;
-	cout << "" << endl;
-	cout << "Print all person objects in the register" << endl;
+	cout << "\n\nPrint all person objects in the register" << endl;
 	cout << "****************************************" << endl;
-	for (Person* ptr = personer; ptr != personer + maxSize; ++ptr) 
+	for (Person* ptr = personer; ptr != personer + maxSize; ++ptr)
 	{
 		ptr->print();
 	}
-	cout << "****************************************" << endl;
-	cout << "" << endl;
-	cout << "" << endl;
-
+	cout << "****************************************\n\n" << endl;
 }
 
-PersonReg::~PersonReg() 
+PersonReg::~PersonReg()
 {
 	delete[] personer;
-	maxSize = 0;
-	index = 0;
-	pos = 0;
-	personer = nullptr;
 }
 
-bool PersonReg::ReadReg(PersonReg& reg, string fileName) 
+bool PersonReg::ReadReg(PersonReg& reg, string fileName)
 {
 	string line;
 	ifstream myfile(fileName);
@@ -161,8 +95,7 @@ bool PersonReg::ReadReg(PersonReg& reg, string fileName)
 	{
 		while (getline(myfile, line))
 		{
-			while (line.length() == 0 && getline(myfile, line))
-				;
+			while (line.length() == 0 && getline(myfile, line));
 			string name(line);
 			string adress;
 			getline(myfile, adress);
@@ -171,7 +104,7 @@ bool PersonReg::ReadReg(PersonReg& reg, string fileName)
 		myfile.close();
 		return true;
 	}
-	else 
+	else
 	{
 		cout << "Unable to open file";
 		return false;
@@ -180,31 +113,29 @@ bool PersonReg::ReadReg(PersonReg& reg, string fileName)
 
 Person* PersonReg::sökFritt(string name, Person *ptr_person)
 {
-	if (ptr_person == nullptr) 
+	Person *pbeg = personer;
+	Person *pend = personer + maxSize;
+	if (ptr_person != nullptr)
+		pbeg = ++ptr_person; // start search from last found person + 1
+
+	bool foundPerson = false;
+
+	while (pbeg != pend && !foundPerson)
 	{
-		while (pos < maxSize) 
+		if (pbeg->getName() == name || pbeg->getAdress() == name)
 		{
-			if (personer[pos].getName() == name) 
-			{
-				return &personer[pos];
-			}
-			++pos;
+			cout << "Found person:" << endl;
+			cout << "            Namn: " + pbeg->getName() << endl;
+			cout << "            Address: " + pbeg->getAdress() << endl;
+			foundPerson = true;
 		}
+		else
+			++pbeg;
+	}
+
+	if (foundPerson)
+		return pbeg;
+	else
 		return nullptr;
-	}
-	else 
-	{
-		int tempSize = maxSize - pos;
-		++ptr_person;
-		while (pos < tempSize) 
-		{
-			if (ptr_person->getName() == name) 
-			{
-				return ptr_person;
-			}
-			++ptr_person;
-			++pos;
-		}
-		return ptr_person = nullptr;
-	}
+
 }

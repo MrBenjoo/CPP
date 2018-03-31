@@ -5,7 +5,7 @@
 class String {
 	char *ptr_c_array;
 	int length;
-	int memorySize;
+	int mCapacity;
 
 public:
 	~String();

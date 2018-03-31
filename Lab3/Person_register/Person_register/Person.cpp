@@ -3,9 +3,6 @@
 
 using namespace std;
 
-string name;
-string adress;
-
 Person::Person() // default constructor
 {
 }

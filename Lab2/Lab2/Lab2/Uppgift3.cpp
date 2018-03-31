@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "uppgift3.h"
 
@@ -12,10 +13,10 @@ void Uppgift3::runUppgift3()
 	cout << "\nUppgift3\nEnter a string: ";
 	getline(cin, inputString);
 
-	int counts = beforeCounts(inputString, before); // Count number of instances of variable before in inputString
+	int counts = beforeCounts(inputString, before); // Count number of instances of 'before' in inputString
 
 	if (counts != 0) { // replace characters
-		inputSize = inputString.size() + (counts*(strlen(after)) - counts); // gammal storlek + (antalet tecken som ska sättas in - redan existerande tecken)
+		inputSize = inputString.size() + (counts*(strlen(after)) - counts); // old size + (the number of characters to replace all 'before' with - 'before' characters)
 
 		char* input = new char[inputSize + 1]; // +1 for '\0'
 		strcpy_s(input, inputSize + 1, inputString.c_str());

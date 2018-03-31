@@ -4,11 +4,9 @@
 
 class Person
 {
-
-private:
 	std::string name;
 	std::string adress;
-	
+
 public:
 	Person();
 	Person(std::string name, std::string adress);
